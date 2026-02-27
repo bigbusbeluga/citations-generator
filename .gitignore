@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output (distributed via GitHub Releases)
+dist/
+
+# Source code
+main.js
+renderer.js
+index.html
+styles.css
+package.json
+package-lock.json
+assets/
+
+# Logs & system files
+*.log
+.DS_Store
+Thumbs.db
