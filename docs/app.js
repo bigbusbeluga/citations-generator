@@ -850,74 +850,78 @@ function generateButterResponse(query) {
   const q = query.toLowerCase();
 
   if (q.match(/^(hi|hello|hey|howdy|sup|yo)\b/)) {
-    const g = [`Hey! 🧈 Butter here, ready to make your citations smooth and easy! What do you need help with?`, `Hello! Great to see you 🧈 What citation can I help with today?`, `Hey hey! Butter's in the house 🧈 Ask me anything about citations!`];
+    const g = [
+      `*wags tail* Hey hey! Butter here 🐶 Ready to fetch some citation help! What do you need?`,
+      `WOOF! Hi there! 🐶 Butter the citation dog is on duty! What can I sniff out for you?`,
+      `*bork bork* Hello! 🐶 Throw me a question and I'll fetch the answer!`
+    ];
     return g[Math.floor(Math.random()*g.length)];
   }
 
   if (q.includes('check') || q.includes('validate') || q.includes('is this right')) {
-    return `Sure, I'd love to check that! 🧈<br><br>Paste the citation and tell me the format (APA, ACM, or ASCE) and I'll look for issues like:<br><br>• Missing author initials or year<br>• Punctuation and italics placement<br>• Required fields for the source type<br>• DOI formatting<br><br><b>Pro tip:</b> Use the form to auto-generate a perfectly formatted citation — then you never have to worry! 😄`;
+    return `Ooh ooh, let me sniff that! 🐶<br><br>Paste the citation and tell me the format (APA, ACM, or ASCE) and I'll look for issues like:<br><br>• Missing author initials or year<br>• Punctuation and italics placement<br>• Required fields for the source type<br>• DOI formatting<br><br><b>Pro tip:</b> Use the form to auto-generate a perfectly formatted citation — then you never have to worry! 😄`;
   }
 
   if (q.includes('apa') && (q.includes('journal') || q.includes('article'))) {
-    return `Great question! 🧈 APA 7th edition journal format:<br><br><b>Format:</b><br>Author, A. A., &amp; Author, B. B. (Year). Title. <i>Journal, Volume</i>(Issue), Pages. DOI<br><br><b>Tip:</b> Paste the DOI in the lookup field and I'll auto-fill the form for you! 🚀`;
+    return `Fetched it! 🐶 APA 7th edition journal format:<br><br><b>Format:</b><br>Author, A. A., &amp; Author, B. B. (Year). Title. <i>Journal, Volume</i>(Issue), Pages. DOI<br><br><b>Tip:</b> Paste the DOI in the lookup field and I'll go fetch the form fields! 🎾`;
   }
   if (q.includes('apa') && q.includes('book')) {
-    return `APA book citation 🧈<br><br><b>Format:</b><br>Author, A. A. (Year). <i>Title</i> (Xth ed.). Publisher.<br><br>Edited book? Replace author with editor and add (Ed.) after name!`;
+    return `*sniffs book* APA book citation 🐶<br><br><b>Format:</b><br>Author, A. A. (Year). <i>Title</i> (Xth ed.). Publisher.<br><br>Edited book? Replace author with editor and add (Ed.) after name!`;
   }
   if (q.includes('apa') && (q.includes('website') || q.includes('web'))) {
-    return `Citing a website in APA 🧈<br><br>Author, A. A. (Year, Month Day). Title. <i>Site Name</i>. Retrieved Date, from URL<br><br>• No author? Use org name<br>• No date? Use <b>(n.d.)</b><br><br>Paste the URL in the lookup field and I'll grab metadata automatically! 🚀`;
+    return `On it! *runs around* 🐶 APA website citation:<br><br>Author, A. A. (Year, Month Day). Title. <i>Site Name</i>. Retrieved Date, from URL<br><br>• No author? Use org name<br>• No date? Use <b>(n.d.)</b><br><br>Paste the URL in the lookup field and I'll fetch metadata automatically! 🎾`;
   }
   if ((q.includes('apa') && q.includes('acm')) || q.includes('difference between') || q.includes('which format')) {
-    return `Here's the breakdown 🧈<br><br><b>APA</b> (Psychology/Education): Last, F. M. (Year). Title. <i>Journal, Vol</i>(Issue).<br><br><b>ACM</b> (Computer Science): First Last. Year. Title. <i>Journal Vol</i>, Issue.<br><br><b>ASCE</b> (Engineering): Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.).<br><br>Not sure? Ask your professor or check the journal guidelines!`;
+    return `*sits and thinks really hard* 🐶 Here's the breakdown:<br><br><b>APA</b> (Psychology/Education): Last, F. M. (Year). Title. <i>Journal, Vol</i>(Issue).<br><br><b>ACM</b> (Computer Science): First Last. Year. Title. <i>Journal Vol</i>, Issue.<br><br><b>ASCE</b> (Engineering): Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.).<br><br>Not sure? Ask your professor or check the journal guidelines!`;
   }
   if (q.includes('acm') && !q.includes('apa')) {
-    return `ACM citation style 🧈<br><br><b>Journal:</b> First M. Last. Year. Title. <i>Journal Vol</i>, Issue (Year), Pages. DOI<br><b>Book:</b> First A. Author. Year. <i>Title</i>. Publisher, Xth edition.<br><b>Conference:</b> Author. Year. Title. In <i>Proc. Conference</i>, Location.<br><br>Select <b>ACM</b> from the format dropdown!`;
+    return `ACM citation style — I fetched it! 🐶<br><br><b>Journal:</b> First M. Last. Year. Title. <i>Journal Vol</i>, Issue (Year), Pages. DOI<br><b>Book:</b> First A. Author. Year. <i>Title</i>. Publisher, Xth edition.<br><b>Conference:</b> Author. Year. Title. In <i>Proc. Conference</i>, Location.<br><br>Select <b>ACM</b> from the format dropdown!`;
   }
   if (q.includes('asce') || q.includes('civil engineer')) {
-    return `ASCE format 🧈<br><br><b>Journal:</b> Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.), Pages. DOI<br><b>Book:</b> Last, F. M. (Year). <i>Title</i>, Xth ed. Publisher.<br><b>Conference:</b> Last, F. M. (Year). "Title." <i>Proc., Name</i>, Location, ASCE.<br><br>Select <b>ASCE</b> from the dropdown!`;
+    return `ASCE format 🐶<br><br><b>Journal:</b> Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.), Pages. DOI<br><b>Book:</b> Last, F. M. (Year). <i>Title</i>, Xth ed. Publisher.<br><b>Conference:</b> Last, F. M. (Year). "Title." <i>Proc., Name</i>, Location, ASCE.<br><br>Select <b>ASCE</b> from the dropdown!`;
   }
   if (q.includes('book') || q.includes('textbook') || q.includes('isbn')) {
-    return `Citing a book 🧈<br><br><b>APA:</b> Author, A. A. (Year). <i>Title</i> (ed.). Publisher.<br><b>ACM:</b> Author. Year. <i>Title</i>. Publisher, edition.<br><b>ASCE:</b> Author (Year). <i>Title</i>, ed. Publisher.<br><br>Got an ISBN? Paste it in the lookup field — I'll pull in the details automatically! 📚`;
+    return `Ooh a book! *wag wag* 🐶<br><br><b>APA:</b> Author, A. A. (Year). <i>Title</i> (ed.). Publisher.<br><b>ACM:</b> Author. Year. <i>Title</i>. Publisher, edition.<br><b>ASCE:</b> Author (Year). <i>Title</i>, ed. Publisher.<br><br>Got an ISBN? Paste it in the lookup field — I'll fetch the details automatically! 📚`;
   }
   if (q.includes('website') || q.includes('web page') || q.includes('online')) {
-    return `Citing a website 🧈<br><br><b>APA:</b> Author (Year). Title. <i>Site</i>. Retrieved from URL<br><b>ACM:</b> Author. Year. Title. <i>Site</i>. URL. Accessed: Date.<br><b>ASCE:</b> Author (Year). "Title." <i>Site</i>. URL (accessed Date).<br><br>Paste the URL in the lookup bar and I'll grab the title for you! 🚀`;
+    return `*sniff sniff* Citing a website? I got it! 🐶<br><br><b>APA:</b> Author (Year). Title. <i>Site</i>. Retrieved from URL<br><b>ACM:</b> Author. Year. Title. <i>Site</i>. URL. Accessed: Date.<br><b>ASCE:</b> Author (Year). "Title." <i>Site</i>. URL (accessed Date).<br><br>Paste the URL in the lookup bar and I'll fetch the title! 🎾`;
   }
   if (q.includes('bibtex') || q.includes('latex') || q.includes('overleaf')) {
-    return `BibTeX + Overleaf combo 🧈<br><br>1. Click <b>Export BibTeX</b> to download a <code>.bib</code> file<br>2. Upload it to your Overleaf project<br>3. Add to your <code>.tex</code> file:<br>&nbsp;&nbsp;<code>\\bibliography{name}</code><br>&nbsp;&nbsp;<code>\\bibliographystyle{apalike}</code><br>4. Cite with <code>\\cite{key}</code><br><br>Keys are auto-generated as <b>lastname + year</b>!`;
+    return `BibTeX + Overleaf — fetching the steps! 🐶<br><br>1. Click <b>Export BibTeX</b> to download a <code>.bib</code> file<br>2. Upload it to your Overleaf project<br>3. Add to your <code>.tex</code> file:<br>&nbsp;&nbsp;<code>\\bibliography{name}</code><br>&nbsp;&nbsp;<code>\\bibliographystyle{apalike}</code><br>4. Cite with <code>\\cite{key}</code><br><br>Keys are auto-generated as <b>lastname + year</b>! *sits and waits*`;
   }
   if (q.includes('autofill') || q.includes('auto-fill') || q.includes('lookup') || q.includes('doi') || q.includes('fill')) {
-    return `Auto-fill is a game changer! 🧈<br><br>1. Paste DOI, URL, or ISBN in the <b>lookup bar</b><br>2. Click <b>Lookup</b><br>3. Watch the form fill itself! ✨<br><br><b>Supported:</b><br>• <b>DOI</b> — via CrossRef (journals/articles)<br>• <b>URL</b> — scrapes title, site name<br>• <b>ISBN</b> — via Open Library (books)`;
+    return `Ooh ooh! Auto-fill is one of my favourite tricks! 🐶<br><br>1. Paste DOI, URL, or ISBN in the <b>lookup bar</b><br>2. Click <b>Lookup</b><br>3. Watch me fetch all the details! 🎾✨<br><br><b>Supported:</b><br>• <b>DOI</b> — via CrossRef (journals/articles)<br>• <b>URL</b> — scrapes title, site name<br>• <b>ISBN</b> — via Open Library (books)`;
   }
   if (q.includes('export') || q.includes('pdf') || q.includes('word') || q.includes('download')) {
-    return `Export options 🧈<br><br>• <b>PDF</b> — formatted reference list, ready to submit<br>• <b>Word (.doc)</b> — editable, paste into your paper<br>• <b>BibTeX (.bib)</b> — for LaTeX and Overleaf<br><br>Find the export buttons in the <b>Citations</b> tab!`;
+    return `I'll fetch that info! 🐶 Export options:<br><br>• <b>PDF</b> — formatted reference list, ready to submit<br>• <b>Word (.doc)</b> — editable, paste into your paper<br>• <b>BibTeX (.bib)</b> — for LaTeX and Overleaf<br><br>Find the export buttons in the <b>Citations</b> tab!`;
   }
   if (q.includes('my citation') || q.includes('summarize') || q.includes('how many')) {
     const folder = appData.folders.find(f => f.id === currentFolderId);
     const count = folder?.citations.length || 0;
-    if (!count) return `Your "<b>${folder?.name || 'current folder'}</b>" is empty 🧈<br><br>Generate a citation and tap <b>Add to List</b>!`;
+    if (!count) return `*sniffs around* Your "<b>${folder?.name || 'current folder'}</b>" is empty! 🐶<br><br>Generate a citation and tap <b>Add to List</b>!`;
     const formats = {}, types = {};
     folder.citations.forEach(c => { formats[c.format] = (formats[c.format]||0)+1; types[c.sourceType] = (types[c.sourceType]||0)+1; });
-    let s = `Here's your "<b>${folder.name}</b>" summary 🧈<br><br>📚 Total: <b>${count}</b><br><br><b>By Format:</b><br>`;
+    let s = `*wags tail* Here's your "<b>${folder.name}</b>" summary 🐶<br><br>📚 Total: <b>${count}</b><br><br><b>By Format:</b><br>`;
     Object.entries(formats).forEach(([f,c]) => { s += `• ${f}: ${c}<br>`; });
     s += `<br><b>By Type:</b><br>`;
     Object.entries(types).forEach(([t,c]) => { s += `• ${t}: ${c}<br>`; });
-    return s + `<br>Export using the buttons in the Citations tab! 🚀`;
+    return s + `<br>Export using the buttons in the Citations tab! 🎾`;
   }
   if (q.includes('folder') || q.includes('organis') || q.includes('project')) {
-    return `Folders help you organise by project! 🧈<br><br>• Tap <b>+ New Folder</b> to create one<br>• Name it after your project ("Thesis Ch.2")<br>• Switch folders to manage different reference lists<br>• Each folder exports independently 📁`;
+    return `Folders! I know how those work! 🐶<br><br>• Tap <b>+ New Folder</b> to create one<br>• Name it after your project ("Thesis Ch.2")<br>• Switch folders to manage different reference lists<br>• Think of them as different toy boxes — one for each project! 📁`;
   }
-  if (q.includes('thanks') || q.includes('thank you') || q.includes('awesome') || q.includes('great')) {
-    const r = [`Aw, you're so sweet! 🧈 Happy to help!`, `You're very welcome! 🧈 That's what Butter's here for!`, `Glad I could help! 🧈`];
+  if (q.includes('thanks') || q.includes('thank you') || q.includes('awesome') || q.includes('great') || q.includes('good boy') || q.includes('good dog')) {
+    const r = [`*tail wagging intensifies* 🐶 Happy to help!`, `Arf arf! Thank you! 🐾 That's what Butter's here for!`, `*does a little spin* So glad I could help! 🐶`];
     return r[Math.floor(Math.random()*r.length)];
   }
   if (q.includes('help') || q.includes('what can you') || q.includes('features')) {
-    return `I'm Butter 🧈 — your citation assistant! I can help with:<br><br>🔍 <b>Auto-fill</b> — DOI, URL, or ISBN lookup<br>📝 <b>Format help</b> — APA, ACM, ASCE rules<br>✅ <b>Citation checking</b> — common mistake tips<br>📚 <b>Your library</b> — summarise saved citations<br>📤 <b>Exports</b> — PDF, Word, BibTeX guidance<br>📁 <b>Folders</b> — organise by project<br><br>Just ask me anything! 😄`;
+    return `*spins in a circle* Woof! I'm Butter 🐶 — your citation dog! Here's what I can fetch:<br><br>🎾 <b>Auto-fill</b> — DOI, URL, or ISBN lookup<br>📝 <b>Format help</b> — APA, ACM, ASCE rules<br>✅ <b>Citation checking</b> — common mistake tips<br>📚 <b>Your library</b> — summarise saved citations<br>📤 <b>Exports</b> — PDF, Word, BibTeX guidance<br>📁 <b>Folders</b> — organise by project<br><br>Just ask — I don't bite! 🐾`;
   }
 
   const d = [
-    `Hmm, not totally sure about that one 🧈 I'm best at citation formats (APA/ACM/ASCE), auto-fill, and exports. Try: <i>"How do I cite a journal in APA?"</i>`,
-    `That's a tough one for me 🧈 Ask me about citation formats, auto-fill, BibTeX, or your saved citations!`,
-    `Still learning some things! 🧈 But I know citations cold — try asking about APA, ACM, ASCE, auto-fill, or exports.`
+    `*tilts head* Hmm, not sure about that one 🐶 I'm best at citation formats (APA/ACM/ASCE), auto-fill, and exports. Try: <i>"How do I cite a journal in APA?"</i>`,
+    `*sniffs around confused* That one's tricky for me 🐶 Ask me about citation formats, auto-fill, BibTeX, or your saved citations!`,
+    `*sits and looks up at you* Still learning some things! 🐶 But I know citations like the back of my paw — try APA, ACM, ASCE, auto-fill, or exports.`
   ];
   return d[Math.floor(Math.random()*d.length)];
 }
