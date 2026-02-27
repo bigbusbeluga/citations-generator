@@ -1,7 +1,7 @@
 # Citation Generator - Installation Guide
 ### Created by Liby
 
-Welcome! This guide will help you install the Citation Generator app on your Windows computer.
+Welcome! This guide will help you install **Citation Generator v1.1** on your Windows computer.
 
 ---
 
@@ -84,14 +84,28 @@ This is normal for apps that aren't from the Microsoft Store.
 
 1. **Open the app**
 2. **Select Source Type** (Journal, Book, Website, or Conference)
-3. **Choose Format** (APA or ACM)
-4. **Fill in the details:**
-   - Authors (one per line: `LastName, FirstName`)
-   - Title
-   - Year
-   - Other fields based on source type
-5. **Click "Generate Citation"**
-6. **Copy** the citation or **Add to List**
+3. **Choose Citation Format** (APA, ACM, or ASCE)
+4. **Option A — Auto-fill (fastest):**
+   - Paste a **DOI**, **URL**, or **ISBN** into the *DOI / URL / ISBN* field
+   - Click **Lookup** — the form fills automatically!
+5. **Option B — Fill manually:**
+   - Click **Add Contributor** for each author (Surname, First Name, M.I.)
+   - Fill in Title, Year, and source-specific fields
+   - Optionally add an **Abstract/Notes** and attach a **PDF**
+6. **Click "Generate Citation"**
+7. **Copy** the citation or **Add to List**
+
+### New in v1.1
+
+| Feature | How to Use |
+|---------|------------|
+| **Auto-fill from DOI/URL/ISBN** | Paste into the DOI field → click Lookup |
+| **ASCE Citation Format** | Select "ASCE" from the Citation Format dropdown |
+| **Abstract / Notes** | Paste a paper abstract for your own reference |
+| **Attach PDF** | Link a local PDF file to any citation |
+| **Alphabetical sorting** | Citations are sorted A–Z automatically |
+| **A–Z navigation** | Click letter buttons to jump to that section |
+| **AI Assistant** | Click the AI button in the sidebar for citation help |
 
 ### Organizing with Folders
 - Click the **+** button in the sidebar to create folders
@@ -126,6 +140,6 @@ Contact Liby if you have any questions!
 
 ---
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Created by:** Liby  
 **Last Updated:** February 2026
