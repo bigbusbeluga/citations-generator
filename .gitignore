@@ -4,7 +4,7 @@ node_modules/
 # Build output (distributed via GitHub Releases)
 dist/
 
-# Source code
+# Source code (Electron app — keep out of public repo)
 main.js
 renderer.js
 index.html
@@ -12,6 +12,10 @@ styles.css
 package.json
 package-lock.json
 assets/
+
+# Allow everything in docs/ (GitHub Pages PWA)
+!docs/
+!docs/**
 
 # Logs & system files
 *.log

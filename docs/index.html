@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Citations">
+  <meta name="description" content="Generate APA, ACM, ASCE citations. Auto-fill from DOI, URL, ISBN. Butter AI assistant.">
+  <title>Citation Generator</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ TOP BAR ════════════════════ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <span class="brand-icon">📚</span>
+      <span class="brand-name">Citation Generator</span>
+      <span class="brand-version">v1.1</span>
+    </div>
+    <button class="topbar-butter-btn" id="openButterBtn" title="Ask Butter">
+      🧈 <span>Butter</span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!--  MAIN LAYOUT                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="app-layout">
+
+  <!-- ── Desktop Sidebar ──────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Folders</div>
+      <ul class="folder-list" id="folderList"></ul>
+      <button class="btn-new-folder" id="addFolderBtn">+ New Folder</button>
+    </div>
+    <div class="sidebar-butter">
+      <button class="btn-butter-sidebar" id="sidebarButterBtn">🧈 Ask Butter</button>
+    </div>
+    <div class="sidebar-footer">created by liby</div>
+  </aside>
+
+  <!-- ── Main Content ──────────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── FORM PANEL (tab: form) ─────────────────────────────────── -->
+    <section class="panel" id="panelForm" data-panel="form">
+      <div class="panel-header">
+        <h2>New Citation</h2>
+        <div class="format-row">
+          <select id="citationFormat" class="select-sm">
+            <option value="apa">APA 7th</option>
+            <option value="acm">ACM</option>
+            <option value="asce">ASCE</option>
+          </select>
+          <select id="sourceType" class="select-sm">
+            <option value="journal">Journal Article</option>
+            <option value="book">Book</option>
+            <option value="website">Website</option>
+            <option value="conference">Conference</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Lookup bar -->
+      <div class="lookup-row">
+        <input type="text" id="doiInput" placeholder="Paste DOI, URL, or ISBN to auto-fill…" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button id="lookupBtn" class="btn-lookup">
+          <span id="lookupBtnText">Lookup</span>
+        </button>
+      </div>
+
+      <!-- Authors -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <label>Authors</label>
+          <button type="button" class="btn-add-author" id="addAuthorBtn">+ Add Author</button>
+        </div>
+        <div id="authorsContainer"></div>
+      </div>
+
+      <!-- Common fields -->
+      <div class="form-section">
+        <div class="form-group">
+          <label for="titleInput">Title *</label>
+          <input type="text" id="titleInput" placeholder="Article / book / page title">
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="yearInput">Year *</label>
+            <input type="text" id="yearInput" placeholder="2024" maxlength="4">
+          </div>
+          <div class="form-group">
+            <label for="doiField">DOI / URL</label>
+            <input type="text" id="doiField" placeholder="https://doi.org/…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Journal fields -->
+      <div class="form-section source-fields" id="journalFields">
+        <div class="form-group">
+          <label for="journalName">Journal Name</label>
+          <input type="text" id="journalName" placeholder="Nature">
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label for="volumeInput">Volume</label>
+            <input type="text" id="volumeInput" placeholder="15">
+          </div>
+          <div class="form-group">
+            <label for="issueInput">Issue</label>
+            <input type="text" id="issueInput" placeholder="3">
+          </div>
+          <div class="form-group">
+            <label for="pagesInput">Pages</label>
+            <input type="text" id="pagesInput" placeholder="45–67">
+          </div>
+        </div>
+      </div>
+
+      <!-- Book fields -->
+      <div class="form-section source-fields hidden" id="bookFields">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="publisherInput">Publisher</label>
+            <input type="text" id="publisherInput" placeholder="Academic Press">
+          </div>
+          <div class="form-group">
+            <label for="editionInput">Edition</label>
+            <input type="text" id="editionInput" placeholder="3rd">
+          </div>
+        </div>
+      </div>
+
+      <!-- Website fields -->
+      <div class="form-section source-fields hidden" id="websiteFields">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="websiteNameInput">Website Name</label>
+            <input type="text" id="websiteNameInput" placeholder="Wikipedia">
+          </div>
+          <div class="form-group">
+            <label for="accessDateInput">Access Date</label>
+            <input type="date" id="accessDateInput">
+          </div>
+        </div>
+      </div>
+
+      <!-- Conference fields -->
+      <div class="form-section source-fields hidden" id="conferenceFields">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="conferenceNameInput">Conference Name</label>
+            <input type="text" id="conferenceNameInput" placeholder="ICSE 2024">
+          </div>
+          <div class="form-group">
+            <label for="locationInput">Location</label>
+            <input type="text" id="locationInput" placeholder="New York, NY">
+          </div>
+        </div>
+      </div>
+
+      <!-- Abstract / Notes -->
+      <div class="form-section">
+        <div class="form-group">
+          <label for="abstractNotes">Abstract / Notes</label>
+          <textarea id="abstractNotes" rows="3" placeholder="Optional notes or abstract…"></textarea>
+        </div>
+      </div>
+
+      <!-- Generate -->
+      <div class="form-actions">
+        <button id="generateBtn" class="btn-primary btn-full">Generate Citation</button>
+        <button id="clearFormBtn" class="btn-secondary">Clear</button>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-card" id="previewCard" style="display:none">
+        <div class="preview-tabs">
+          <button class="tab active" data-tab="formatted">Formatted</button>
+          <button class="tab" data-tab="bibtex">BibTeX</button>
+        </div>
+        <div id="formattedPreview" class="preview-text active"></div>
+        <div id="bibtexPreview" class="preview-text"></div>
+        <div class="preview-actions">
+          <button id="copyBtn" class="btn-secondary btn-sm">Copy</button>
+          <button id="addToListBtn" class="btn-primary btn-sm">Add to List</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CITATIONS PANEL (tab: citations) ──────────────────────── -->
+    <section class="panel hidden" id="panelCitations" data-panel="citations">
+      <div class="panel-header">
+        <div class="panel-header-row">
+          <h2 id="currentFolderName">All Citations</h2>
+          <span class="citation-count" id="citationCount">0</span>
+        </div>
+        <div class="search-row">
+          <input type="search" id="searchCitations" placeholder="Search citations…">
+        </div>
+        <div class="export-row">
+          <button id="exportPdfBtn" class="btn-export">PDF</button>
+          <button id="exportDocBtn" class="btn-export">Word</button>
+          <button id="exportBibtexBtn" class="btn-export">BibTeX</button>
+        </div>
+      </div>
+
+      <div class="alpha-nav" id="alphaNav"></div>
+      <div class="citations-list" id="citationsList"></div>
+    </section>
+
+    <!-- ── FOLDERS PANEL (tab: folders) ───────────────────────────── -->
+    <section class="panel hidden" id="panelFolders" data-panel="folders">
+      <div class="panel-header">
+        <h2>Folders</h2>
+        <button id="addFolderBtnMobile" class="btn-primary btn-sm">+ New Folder</button>
+      </div>
+      <ul class="folder-list-full" id="folderListFull"></ul>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════ BOTTOM NAV (mobile) ═══════ -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="nav-tab active" data-target="form">
+    <span class="nav-icon">✏️</span>
+    <span class="nav-label">Form</span>
+  </button>
+  <button class="nav-tab" data-target="citations">
+    <span class="nav-icon">📚</span>
+    <span class="nav-label">Citations</span>
+  </button>
+  <button class="nav-tab" data-target="folders">
+    <span class="nav-icon">📁</span>
+    <span class="nav-label">Folders</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ BUTTER PANEL ══════════════ -->
+<div class="butter-panel" id="butterPanel">
+  <div class="butter-header">
+    <div class="butter-title">
+      <span class="butter-icon">🧈</span>
+      <span>Butter</span>
+      <span class="butter-subtitle">Citation Assistant</span>
+    </div>
+    <button id="closeButterPanel" class="btn-close-panel" aria-label="Close">✕</button>
+  </div>
+
+  <div class="butter-messages" id="butterMessages">
+    <div class="ai-message bot">
+      <div class="message-content">
+        <p>Hey! I'm Butter 🧈 — your personal citation assistant!<br><br>
+        I can help with APA, ACM, and ASCE formats, auto-fill tips, BibTeX, and more.<br><br>
+        What do you need help with?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="butter-quick-actions">
+    <button class="quick-action" data-prompt="How do I cite a journal in APA?">APA Journal</button>
+    <button class="quick-action" data-prompt="How do I use auto-fill with DOI?">Auto-fill</button>
+    <button class="quick-action" data-prompt="Check my citation format">Check Citation</button>
+    <button class="quick-action" data-prompt="Summarize my citations">My Citations</button>
+  </div>
+
+  <div class="butter-input-row">
+    <input type="text" id="butterInput" placeholder="Ask Butter anything…" autocomplete="off">
+    <button id="sendButterBtn" class="btn-send" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
+<div class="butter-overlay" id="butterOverlay"></div>
+
+<!-- ═══════════════════════════════════════════ FOLDER MODAL ══════════════ -->
+<div class="modal-overlay" id="folderModal">
+  <div class="modal-box">
+    <h3 id="folderModalTitle">New Folder</h3>
+    <input type="text" id="folderNameInput" placeholder="Folder name…" maxlength="40">
+    <div class="modal-actions">
+      <button id="saveFolderBtn" class="btn-primary">Save</button>
+      <button id="cancelFolderBtn" class="btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ CITATION DETAIL MODAL ═════ -->
+<div class="modal-overlay" id="citationModal">
+  <div class="modal-box modal-wide">
+    <button class="modal-close-x" id="closeCitationModal">✕</button>
+    <div id="citationModalBody"></div>
+    <div class="modal-actions">
+      <button id="closeCitationModalBtn" class="btn-secondary">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ TOAST ═════════════════════ -->
+<div class="toast" id="toast">
+  <span id="toastMessage"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════ SCRIPTS ══════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
