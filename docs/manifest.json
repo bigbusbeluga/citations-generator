@@ -1,7 +1,7 @@
 {
   "name": "Citation Generator & Manager",
   "short_name": "Citations",
-  "description": "Generate and manage APA, ACM, and ASCE citations with auto-fill from DOI, URL, and ISBN.",
+  "description": "Generate and manage APA, MLA, Chicago, ACM, IEEE & Vancouver citations with auto-fill from DOI, URL, and ISBN.",
   "start_url": "/citations-generator/",
   "scope": "/citations-generator/",
   "display": "standalone",

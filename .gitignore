@@ -3,6 +3,7 @@ node_modules/
 
 # Build output (distributed via GitHub Releases)
 dist/
+dist-writer/
 
 # Source code (Electron app — keep out of public repo)
 main.js
@@ -12,6 +13,12 @@ styles.css
 package.json
 package-lock.json
 assets/
+
+# Writer / Editor source (Electron-only, not for public repo)
+src/
+vite.config.js
+writer-preload.js
+writer.html
 
 # Allow everything in docs/ (GitHub Pages PWA)
 !docs/
