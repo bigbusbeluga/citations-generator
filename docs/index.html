@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Citations">
-  <meta name="description" content="Generate APA, ACM, ASCE citations. Auto-fill from DOI, URL, ISBN. Butter AI assistant.">
+  <meta name="description" content="Generate APA, MLA, Chicago, ACM, IEEE, Vancouver citations. Auto-fill from DOI, URL, ISBN. Butter AI assistant.">
   <title>Citation Generator</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.svg">
@@ -57,8 +57,11 @@
         <div class="format-row">
           <select id="citationFormat" class="select-sm">
             <option value="apa">APA 7th</option>
+            <option value="mla">MLA 9th</option>
+            <option value="chicago">Chicago</option>
             <option value="acm">ACM</option>
-            <option value="asce">ASCE</option>
+            <option value="ieee">IEEE</option>
+            <option value="vancouver">Vancouver</option>
           </select>
           <select id="sourceType" class="select-sm">
             <option value="journal">Journal Article</option>
@@ -261,7 +264,7 @@
     <div class="ai-message bot">
       <div class="message-content">
         <p>*wags tail* Hey hey! I'm Butter 🐶 — your favourite citation dog!<br><br>
-        I can help with APA, ACM, and ASCE formats, auto-fill tips, BibTeX, and more.<br><br>
+        I can help with APA, MLA, Chicago, ACM, IEEE, and Vancouver formats, auto-fill tips, BibTeX, and more.<br><br>
         Throw me a question — I'll fetch the answer! 🎾</p>
       </div>
     </div>
@@ -269,8 +272,8 @@
 
   <div class="butter-quick-actions">
     <button class="quick-action" data-prompt="How do I cite a journal in APA?">APA Journal</button>
+    <button class="quick-action" data-prompt="What's the difference between citation formats?">Compare Formats</button>
     <button class="quick-action" data-prompt="How do I use auto-fill with DOI?">Auto-fill</button>
-    <button class="quick-action" data-prompt="Check my citation format">Check Citation</button>
     <button class="quick-action" data-prompt="Summarize my citations">My Citations</button>
   </div>
 

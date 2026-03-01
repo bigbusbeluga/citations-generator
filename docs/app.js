@@ -466,6 +466,195 @@ function generateASCECitation(data) {
   return '';
 }
 
+function generateMLACitation(data) {
+  const authors = data.authors;
+  function fmt(a) { return `${a.lastName}, ${a.firstName}${a.middleInitial ? ' ' + a.middleInitial : ''}`; }
+  function fmtSecondary(a) { return `${a.firstName}${a.middleInitial ? ' ' + a.middleInitial : ''} ${a.lastName}`; }
+  let authorStr = authors.length === 1 ? fmt(authors[0])
+    : authors.length === 2 ? `${fmt(authors[0])}, and ${fmtSecondary(authors[1])}`
+    : `${fmt(authors[0])}, et al.`;
+
+  switch (data.sourceType) {
+    case 'journal': {
+      let c = `${authorStr}. "${data.title}." <i>${data.journalName}</i>`;
+      if (data.volume) c += `, vol. ${data.volume}`;
+      if (data.issue) c += `, no. ${data.issue}`;
+      if (data.year) c += `, ${data.year}`;
+      if (data.pages) c += `, pp. ${data.pages}`;
+      c += '.';
+      if (data.doi) c += ` ${data.doi}`;
+      return c;
+    }
+    case 'book': {
+      let c = `${authorStr}. <i>${data.title}</i>.`;
+      if (data.edition) c += ` ${data.edition} ed.,`;
+      if (data.publisher) c += ` ${data.publisher},`;
+      if (data.year) c += ` ${data.year}`;
+      c += '.';
+      return c;
+    }
+    case 'website': {
+      let c = `${authorStr}. "${data.title}." <i>${data.websiteName}</i>`;
+      if (data.year) c += `, ${data.year}`;
+      c += '.';
+      if (data.doi) c += ` ${data.doi}.`;
+      if (data.accessDate) { const d = new Date(data.accessDate); c += ` Accessed ${d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}.`; }
+      return c;
+    }
+    case 'conference': {
+      let c = `${authorStr}. "${data.title}." <i>${data.conferenceName}</i>`;
+      if (data.year) c += `, ${data.year}`;
+      if (data.location) c += `, ${data.location}`;
+      c += '.';
+      if (data.doi) c += ` ${data.doi}`;
+      return c;
+    }
+  }
+  return '';
+}
+
+function generateChicagoCitation(data) {
+  const authors = data.authors;
+  function fmt(a) { return `${a.lastName}, ${a.firstName}${a.middleInitial ? ' ' + a.middleInitial : ''}`; }
+  function fmtSecondary(a) { return `${a.firstName}${a.middleInitial ? ' ' + a.middleInitial : ''} ${a.lastName}`; }
+  let authorStr = authors.length === 1 ? fmt(authors[0])
+    : authors.length === 2 ? `${fmt(authors[0])}, and ${fmtSecondary(authors[1])}`
+    : authors.length <= 10 ? `${authors.slice(0, -1).map((a, i) => i === 0 ? fmt(a) : fmtSecondary(a)).join(', ')}, and ${fmtSecondary(authors[authors.length - 1])}`
+    : `${authors.slice(0, 7).map((a, i) => i === 0 ? fmt(a) : fmtSecondary(a)).join(', ')}, et al.`;
+
+  switch (data.sourceType) {
+    case 'journal': {
+      let c = `${authorStr}. ${data.year}. "${data.title}." <i>${data.journalName}</i>`;
+      if (data.volume) c += ` ${data.volume}`;
+      if (data.issue) c += `, no. ${data.issue}`;
+      if (data.pages) c += `: ${data.pages}`;
+      c += '.';
+      if (data.doi) c += ` ${data.doi}`;
+      return c;
+    }
+    case 'book': {
+      let c = `${authorStr}. ${data.year}. <i>${data.title}</i>.`;
+      if (data.edition) c += ` ${data.edition} ed.`;
+      if (data.publisher) c += ` ${data.publisher}.`;
+      return c;
+    }
+    case 'website': {
+      let c = `${authorStr}. ${data.year}. "${data.title}." <i>${data.websiteName}</i>.`;
+      if (data.accessDate) { const d = new Date(data.accessDate); c += ` Accessed ${d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`; }
+      if (data.doi) c += ` ${data.doi}`;
+      return c;
+    }
+    case 'conference': {
+      let c = `${authorStr}. ${data.year}. "${data.title}." Paper presented at <i>${data.conferenceName}</i>`;
+      if (data.location) c += `, ${data.location}`;
+      c += '.';
+      if (data.doi) c += ` ${data.doi}`;
+      return c;
+    }
+  }
+  return '';
+}
+
+function generateIEEECitation(data) {
+  const authors = data.authors;
+  function fmt(a) {
+    let s = a.firstName.charAt(0) + '.';
+    if (a.middleInitial) s += ' ' + (a.middleInitial.endsWith('.') ? a.middleInitial : a.middleInitial + '.');
+    s += ' ' + a.lastName;
+    return s;
+  }
+  let authorStr = authors.length === 1 ? fmt(authors[0])
+    : authors.length === 2 ? `${fmt(authors[0])} and ${fmt(authors[1])}`
+    : `${authors.slice(0, -1).map(fmt).join(', ')}, and ${fmt(authors[authors.length - 1])}`;
+
+  switch (data.sourceType) {
+    case 'journal': {
+      let c = `${authorStr}, "${data.title}," <i>${data.journalName}</i>`;
+      if (data.volume) c += `, vol. ${data.volume}`;
+      if (data.issue) c += `, no. ${data.issue}`;
+      if (data.pages) c += `, pp. ${data.pages}`;
+      if (data.year) c += `, ${data.year}`;
+      c += '.';
+      if (data.doi) c += ` doi: ${data.doi.replace('https://doi.org/', '')}.`;
+      return c;
+    }
+    case 'book': {
+      let c = `${authorStr}, <i>${data.title}</i>`;
+      if (data.edition) c += `, ${data.edition} ed.`;
+      c += '.';
+      if (data.publisher) c += ` ${data.publisher}`;
+      if (data.year) c += `, ${data.year}`;
+      c += '.';
+      return c;
+    }
+    case 'website': {
+      let c = `${authorStr}, "${data.title}," <i>${data.websiteName}</i>`;
+      if (data.year) c += `, ${data.year}`;
+      c += '.';
+      if (data.doi) c += ` [Online]. Available: ${data.doi}.`;
+      if (data.accessDate) { const d = new Date(data.accessDate); c += ` [Accessed: ${d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}].`; }
+      return c;
+    }
+    case 'conference': {
+      let c = `${authorStr}, "${data.title}," in <i>${data.conferenceName}</i>`;
+      if (data.location) c += `, ${data.location}`;
+      if (data.year) c += `, ${data.year}`;
+      c += '.';
+      if (data.doi) c += ` doi: ${data.doi.replace('https://doi.org/', '')}.`;
+      return c;
+    }
+  }
+  return '';
+}
+
+function generateVancouverCitation(data) {
+  const authors = data.authors;
+  function fmt(a) {
+    let s = a.lastName + ' ' + a.firstName.charAt(0).toUpperCase();
+    if (a.middleInitial) s += a.middleInitial.replace('.', '').toUpperCase();
+    return s;
+  }
+  let authorStr = authors.length <= 6
+    ? authors.map(fmt).join(', ')
+    : `${authors.slice(0, 6).map(fmt).join(', ')}, et al.`;
+
+  switch (data.sourceType) {
+    case 'journal': {
+      let c = `${authorStr}. ${data.title}. ${data.journalName}. ${data.year}`;
+      if (data.volume) c += `;${data.volume}`;
+      if (data.issue) c += `(${data.issue})`;
+      if (data.pages) c += `:${data.pages}`;
+      c += '.';
+      if (data.doi) c += ` doi: ${data.doi.replace('https://doi.org/', '')}`;
+      return c;
+    }
+    case 'book': {
+      let c = `${authorStr}. ${data.title}.`;
+      if (data.edition) c += ` ${data.edition} ed.`;
+      if (data.publisher) c += ` ${data.publisher}`;
+      if (data.year) c += `; ${data.year}`;
+      c += '.';
+      return c;
+    }
+    case 'website': {
+      let c = `${authorStr}. ${data.title} [Internet]. ${data.websiteName}. ${data.year}`;
+      if (data.accessDate) { const d = new Date(data.accessDate); c += ` [cited ${d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}]`; }
+      c += '.';
+      if (data.doi) c += ` Available from: ${data.doi}`;
+      return c;
+    }
+    case 'conference': {
+      let c = `${authorStr}. ${data.title}. In: ${data.conferenceName}`;
+      if (data.location) c += `, ${data.location}`;
+      if (data.year) c += `; ${data.year}`;
+      c += '.';
+      if (data.doi) c += ` doi: ${data.doi.replace('https://doi.org/', '')}`;
+      return c;
+    }
+  }
+  return '';
+}
+
 function generateBibTeX(data) {
   const authors = data.authors;
   const authorStr = authors.map(a => `${a.lastName}, ${a.firstName}${a.middleInitial ? ' '+a.middleInitial : ''}`).join(' and ');
@@ -500,7 +689,11 @@ function generateCitation() {
   }
 
   let formatted = data.format === 'apa' ? generateAPACitation(data)
+    : data.format === 'mla' ? generateMLACitation(data)
+    : data.format === 'chicago' ? generateChicagoCitation(data)
     : data.format === 'acm' ? generateACMCitation(data)
+    : data.format === 'ieee' ? generateIEEECitation(data)
+    : data.format === 'vancouver' ? generateVancouverCitation(data)
     : generateASCECitation(data);
 
   const bibtex = generateBibTeX(data);
@@ -859,7 +1052,7 @@ function generateButterResponse(query) {
   }
 
   if (q.includes('check') || q.includes('validate') || q.includes('is this right')) {
-    return `Ooh ooh, let me sniff that! 🐶<br><br>Paste the citation and tell me the format (APA, ACM, or ASCE) and I'll look for issues like:<br><br>• Missing author initials or year<br>• Punctuation and italics placement<br>• Required fields for the source type<br>• DOI formatting<br><br><b>Pro tip:</b> Use the form to auto-generate a perfectly formatted citation — then you never have to worry! 😄`;
+    return `Ooh ooh, let me sniff that! 🐶<br><br>Paste the citation and tell me the format (APA, MLA, Chicago, ACM, IEEE, or Vancouver) and I'll look for issues like:<br><br>• Missing author initials or year<br>• Punctuation and italics placement<br>• Required fields for the source type<br>• DOI formatting<br><br><b>Pro tip:</b> Use the form to auto-generate a perfectly formatted citation — then you never have to worry! 😄`;
   }
 
   if (q.includes('apa') && (q.includes('journal') || q.includes('article'))) {
@@ -872,13 +1065,25 @@ function generateButterResponse(query) {
     return `On it! *runs around* 🐶 APA website citation:<br><br>Author, A. A. (Year, Month Day). Title. <i>Site Name</i>. Retrieved Date, from URL<br><br>• No author? Use org name<br>• No date? Use <b>(n.d.)</b><br><br>Paste the URL in the lookup field and I'll fetch metadata automatically! 🎾`;
   }
   if ((q.includes('apa') && q.includes('acm')) || q.includes('difference between') || q.includes('which format')) {
-    return `*sits and thinks really hard* 🐶 Here's the breakdown:<br><br><b>APA</b> (Psychology/Education): Last, F. M. (Year). Title. <i>Journal, Vol</i>(Issue).<br><br><b>ACM</b> (Computer Science): First Last. Year. Title. <i>Journal Vol</i>, Issue.<br><br><b>ASCE</b> (Engineering): Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.).<br><br>Not sure? Ask your professor or check the journal guidelines!`;
+    return `*sits and thinks really hard* 🐶 Here's the breakdown:<br><br><b>APA</b> (Psychology/Education): Last, F. M. (Year). Title. <i>Journal, Vol</i>(Issue).<br><br><b>MLA</b> (Humanities): Last, First. "Title." <i>Journal</i>, vol. V, no. I, Year, pp. Pages.<br><br><b>Chicago</b> (History/Social Sciences): Last, First. Year. "Title." <i>Journal</i> Vol, no. Issue: Pages.<br><br><b>ACM</b> (Computer Science): First Last. Year. Title. <i>Journal Vol</i>, Issue.<br><br><b>IEEE</b> (Engineering/Tech): F. Last, "Title," <i>Journal</i>, vol. V, no. I, pp. Pages, Year.<br><br><b>Vancouver</b> (Medical/Health): Last FM. Title. Journal. Year;Vol(Issue):Pages.<br><br>Not sure? Ask your professor or check the journal guidelines!`;
+  }
+  if (q.includes('mla') && !q.includes('apa')) {
+    return `MLA 9th edition — fetched it! 🐶<br><br><b>Journal:</b> Last, First. "Title." <i>Journal</i>, vol. V, no. I, Year, pp. Pages. DOI.<br><b>Book:</b> Last, First. <i>Title</i>. Xth ed., Publisher, Year.<br><b>Website:</b> Last, First. "Title." <i>Site</i>, Year. URL. Accessed Date.<br><br>Select <b>MLA 9th</b> from the format dropdown!`;
+  }
+  if (q.includes('chicago') && !q.includes('apa')) {
+    return `Chicago Author-Date style 🐶<br><br><b>Journal:</b> Last, First. Year. "Title." <i>Journal</i> Vol, no. Issue: Pages. DOI.<br><b>Book:</b> Last, First. Year. <i>Title</i>. Xth ed. Publisher.<br><b>Website:</b> Last, First. Year. "Title." <i>Site</i>. Accessed Date. URL.<br><br>Select <b>Chicago</b> from the dropdown!`;
+  }
+  if (q.includes('ieee') && !q.includes('apa')) {
+    return `IEEE reference style — I fetched it! 🐶<br><br><b>Journal:</b> F. Last, "Title," <i>Journal</i>, vol. V, no. I, pp. Pages, Year. doi: DOI.<br><b>Book:</b> F. Last, <i>Title</i>, Xth ed. Publisher, Year.<br><b>Conference:</b> F. Last, "Title," in <i>Conf. Name</i>, Location, Year.<br><br>Select <b>IEEE</b> from the format dropdown!`;
+  }
+  if (q.includes('vancouver') && !q.includes('apa')) {
+    return `Vancouver (medical) style 🐶<br><br><b>Journal:</b> Last FM. Title. Journal. Year;Vol(Issue):Pages. doi: DOI<br><b>Book:</b> Last FM. Title. Xth ed. Publisher; Year.<br><b>Website:</b> Last FM. Title [Internet]. Site. Year [cited Date]. Available from: URL<br><br>Select <b>Vancouver</b> from the format dropdown!`;
   }
   if (q.includes('acm') && !q.includes('apa')) {
     return `ACM citation style — I fetched it! 🐶<br><br><b>Journal:</b> First M. Last. Year. Title. <i>Journal Vol</i>, Issue (Year), Pages. DOI<br><b>Book:</b> First A. Author. Year. <i>Title</i>. Publisher, Xth edition.<br><b>Conference:</b> Author. Year. Title. In <i>Proc. Conference</i>, Location.<br><br>Select <b>ACM</b> from the format dropdown!`;
   }
   if (q.includes('asce') || q.includes('civil engineer')) {
-    return `ASCE format 🐶<br><br><b>Journal:</b> Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.), Pages. DOI<br><b>Book:</b> Last, F. M. (Year). <i>Title</i>, Xth ed. Publisher.<br><b>Conference:</b> Last, F. M. (Year). "Title." <i>Proc., Name</i>, Location, ASCE.<br><br>Select <b>ASCE</b> from the dropdown!`;
+    return `ASCE format 🐶<br><br><b>Journal:</b> Last, F. M. (Year). "Title." <i>Journal</i>, Vol(No.), Pages. DOI<br><b>Book:</b> Last, F. M. (Year). <i>Title</i>, Xth ed. Publisher.<br><b>Conference:</b> Last, F. M. (Year). "Title." <i>Proc., Name</i>, Location, ASCE.<br><br>Note: ASCE is still available in the desktop app. The web app now focuses on APA, MLA, Chicago, ACM, IEEE, and Vancouver!`;
   }
   if (q.includes('book') || q.includes('textbook') || q.includes('isbn')) {
     return `Ooh a book! *wag wag* 🐶<br><br><b>APA:</b> Author, A. A. (Year). <i>Title</i> (ed.). Publisher.<br><b>ACM:</b> Author. Year. <i>Title</i>. Publisher, edition.<br><b>ASCE:</b> Author (Year). <i>Title</i>, ed. Publisher.<br><br>Got an ISBN? Paste it in the lookup field — I'll fetch the details automatically! 📚`;
@@ -915,13 +1120,13 @@ function generateButterResponse(query) {
     return r[Math.floor(Math.random()*r.length)];
   }
   if (q.includes('help') || q.includes('what can you') || q.includes('features')) {
-    return `*spins in a circle* Woof! I'm Butter 🐶 — your citation dog! Here's what I can fetch:<br><br>🎾 <b>Auto-fill</b> — DOI, URL, or ISBN lookup<br>📝 <b>Format help</b> — APA, ACM, ASCE rules<br>✅ <b>Citation checking</b> — common mistake tips<br>📚 <b>Your library</b> — summarise saved citations<br>📤 <b>Exports</b> — PDF, Word, BibTeX guidance<br>📁 <b>Folders</b> — organise by project<br><br>Just ask — I don't bite! 🐾`;
+    return `*spins in a circle* Woof! I'm Butter 🐶 — your citation dog! Here's what I can fetch:<br><br>🎾 <b>Auto-fill</b> — DOI, URL, or ISBN lookup<br>📝 <b>Format help</b> — APA, MLA, Chicago, ACM, IEEE, Vancouver rules<br>✅ <b>Citation checking</b> — common mistake tips<br>📚 <b>Your library</b> — summarise saved citations<br>📤 <b>Exports</b> — PDF, Word, BibTeX guidance<br>📁 <b>Folders</b> — organise by project<br><br>Just ask — I don't bite! 🐾`;
   }
 
   const d = [
-    `*tilts head* Hmm, not sure about that one 🐶 I'm best at citation formats (APA/ACM/ASCE), auto-fill, and exports. Try: <i>"How do I cite a journal in APA?"</i>`,
+    return `*tilts head* Hmm, not sure about that one 🐶 I'm best at citation formats (APA/MLA/Chicago/ACM/IEEE/Vancouver), auto-fill, and exports. Try: <i>"How do I cite a journal in APA?"</i>`,
     `*sniffs around confused* That one's tricky for me 🐶 Ask me about citation formats, auto-fill, BibTeX, or your saved citations!`,
-    `*sits and looks up at you* Still learning some things! 🐶 But I know citations like the back of my paw — try APA, ACM, ASCE, auto-fill, or exports.`
+    `*sits and looks up at you* Still learning some things! 🐶 But I know citations like the back of my paw — try APA, MLA, Chicago, ACM, IEEE, Vancouver, auto-fill, or exports.`
   ];
   return d[Math.floor(Math.random()*d.length)];
 }

@@ -1,7 +1,7 @@
 # Citation Generator - Installation Guide
 ### Created by Liby
 
-Welcome! This guide will help you install **Citation Generator v1.1** on your Windows computer.
+Welcome! This guide will help you install **Citation Generator v2.0** on your Windows computer.
 
 ---
 
@@ -11,15 +11,15 @@ You have **two options** to install this app:
 
 | Option | Best For | File Name |
 |--------|----------|-----------|
-| **Installer (.exe)** | Permanent installation | `Citation Generator Setup 1.0.0.exe` |
-| **Portable (.exe)** | No installation needed, run anywhere | `CitationGenerator-Portable-1.0.0.exe` |
+| **Installer (.exe)** | Permanent installation | `Citation Generator Setup 2.0.0.exe` |
+| **Portable (.exe)** | No installation needed, run anywhere | `CitationGenerator-Portable-2.0.0.exe` |
 
 ---
 
 ## Option 1: Standard Installer (Recommended)
 
 ### Step 1: Download the Installer
-Download the file: **`Citation Generator Setup 1.0.0.exe`**
+Download the file: **`Citation Generator Setup 2.0.0.exe`**
 
 ### Step 2: Run the Installer
 1. Double-click the downloaded `.exe` file
@@ -44,7 +44,7 @@ Go to **Settings > Apps > Installed Apps** and find "Citation Generator" to unin
 ## Option 2: Portable Version (No Installation)
 
 ### Step 1: Download the Portable File
-Download: **`CitationGenerator-Portable-1.0.0.exe`**
+Download: **`CitationGenerator-Portable-2.0.0.exe`**
 
 ### Step 2: Run Directly
 1. Double-click the file to run it immediately
@@ -84,7 +84,7 @@ This is normal for apps that aren't from the Microsoft Store.
 
 1. **Open the app**
 2. **Select Source Type** (Journal, Book, Website, or Conference)
-3. **Choose Citation Format** (APA, ACM, or ASCE)
+3. **Choose Citation Format** (APA, MLA, Chicago, ACM, IEEE, or Vancouver)
 4. **Option A — Auto-fill (fastest):**
    - Paste a **DOI**, **URL**, or **ISBN** into the *DOI / URL / ISBN* field
    - Click **Lookup** — the form fills automatically!
@@ -95,12 +95,17 @@ This is normal for apps that aren't from the Microsoft Store.
 6. **Click "Generate Citation"**
 7. **Copy** the citation or **Add to List**
 
-### New in v1.1
+### New in v2.0
 
 | Feature | How to Use |
 |---------|------------|
+| **MLA, Chicago, IEEE, Vancouver** | Select from the Citation Format dropdown |
+| **Collaborative Editor** | Open the Writer window to write papers with in-text citations |
+| **Smart In-Text Citations** | Select text in the editor → click Cite → citation is inserted at sentence boundary |
+| **PDF Viewer** | Click the PDF icon on any citation to view the attached PDF |
+| **Export to .docx** | Export your full document with citations from the editor |
+| **Dynamic Re-formatting** | Switch citation styles and all in-text citations update instantly |
 | **Auto-fill from DOI/URL/ISBN** | Paste into the DOI field → click Lookup |
-| **ASCE Citation Format** | Select "ASCE" from the Citation Format dropdown |
 | **Abstract / Notes** | Paste a paper abstract for your own reference |
 | **Attach PDF** | Link a local PDF file to any citation |
 | **Alphabetical sorting** | Citations are sorted A–Z automatically |
@@ -140,6 +145,6 @@ Contact Liby if you have any questions!
 
 ---
 
-**Version:** 1.1.0  
+**Version:** 2.0.0  
 **Created by:** Liby  
-**Last Updated:** February 2026
+**Last Updated:** March 2026
